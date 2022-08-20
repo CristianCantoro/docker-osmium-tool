@@ -1,14 +1,15 @@
-FROM debian:stretch
+FROM ubuntu:jammy
 
-MAINTAINER David Stefan <stefda@gmail.com>
+# based on https://github.com/stefda/docker-osmium-tool
 
-ENV OSMIUM_VERSION 2.13.1
-ENV OSMIUM_TOOL_VERSION 1.7.1
+ENV OSMIUM_VERSION 2.18.0
+ENV OSMIUM_TOOL_VERSION 1.14.0
 
 RUN apt-get update
 RUN apt-get update && apt-get install -y \
-    wget g++ cmake cmake-curses-gui make libexpat1-dev zlib1g-dev libbz2-dev libsparsehash-dev \
-    libboost-program-options-dev libboost-dev libgdal-dev libproj-dev doxygen graphviz pandoc
+    cmake cmake-curses-gui doxygen g++ graphviz libboost-dev libboost-program-options-dev \
+    libbz2-dev libexpat1-dev libgdal-dev liblz4-dev libosmium2-dev libproj-dev \
+    libprotozero-dev libsparsehash-dev make pandoc rapidjson-dev wget zlib1g-dev
 
 RUN mkdir /var/install
 WORKDIR /var/install
@@ -20,7 +21,7 @@ RUN wget https://github.com/osmcode/libosmium/archive/v${OSMIUM_VERSION}.tar.gz 
 
 RUN cd libosmium && \
     mkdir build && cd build && \
-    cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DINSTALL_PROTOZERO=ON .. && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=ON -DINSTALL_PROTOZERO=ON .. && \
     make
 
 RUN wget https://github.com/osmcode/osmium-tool/archive/v${OSMIUM_TOOL_VERSION}.tar.gz && \
@@ -34,3 +35,8 @@ RUN cd osmium-tool && \
     make
 
 RUN mv /var/install/osmium-tool/build/src/osmium /usr/bin/osmium
+
+
+ENTRYPOINT ['/usr/bin/osmium']
+
+CMD ['/usr/bin/osmium', '-h']
