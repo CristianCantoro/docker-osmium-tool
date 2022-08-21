@@ -9,7 +9,7 @@ ENV OSMIUM_TOOL_VERSION 1.14.0
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get update && apt-get install -y \
     cmake cmake-curses-gui doxygen g++ graphviz libboost-dev libboost-program-options-dev \
-    libbz2-dev libexpat1-dev libgdal-dev libgdal-doc libgeos-c1v5 libgeos-dev libgeos3.10.2 \
+    libbz2-dev libexpat1-dev libgdal-dev libgeos-c1v5 libgeos-dev libgeos3.10.2 \
     liblz4-dev libosmium2-dev libproj-dev libprotozero-dev libsparsehash-dev make pandoc \
     rapidjson-dev wget zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
