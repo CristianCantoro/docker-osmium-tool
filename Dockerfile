@@ -39,7 +39,5 @@ RUN cd osmium-tool && \
 
 RUN mv /var/install/osmium-tool/build/src/osmium /usr/bin/osmium
 
-
+# default command is osmium help
 ENTRYPOINT ["/usr/bin/osmium"]
-
-CMD ["/usr/bin/osmium", "-h"]
